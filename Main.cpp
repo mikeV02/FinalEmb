@@ -9,28 +9,28 @@
 #include <iostream>
 #include <pthread.h>
 
-void* first_move(void*)
+void* first_move(void* Sp)//void* first_move(void*)
 {
-    CSpider Spider;
+    CSpider* Spider = (CSpider*) Sp;
 
-    Spider.SetSpeed(80);
+    Spider->SetSpeed(80);
 
     //Spider.Reset();
 
     //Spider.WakeUp();
 
     std::cout<<"\nMove Forward\n";
-    Spider.MoveForward(10);
+    Spider->MoveForward(10);
 
-    Spider.Reset();
+    Spider->Reset();
 
     std::cout<<"\nRotate\n";
-    Spider.RotatelLeft(11);
+    Spider->RotatelLeft(11);
 
-    Spider.Reset();
+    Spider->Reset();
 
     std::cout<<"\nMove Forward Again\n";
-    Spider.MoveForward(10);
+    Spider->MoveForward(10);
 
     return NULL;
 }
@@ -96,7 +96,7 @@ int main(int argc, char *argv[]){
             pthread_t t1, leds;
             pthread_cancel(leds);
 
-            pthread_create(&t1, NULL, &first_move, NULL); //Move Thread
+            pthread_create(&t1, NULL, &first_move, &Spider); //Move Thread
 
             pthread_create(&leds, NULL, &LEDs, NULL); //LEDs thread
 

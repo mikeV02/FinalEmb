@@ -7,6 +7,7 @@
 #include "CSpiderLeg.h"
 #include <iostream>
 #include <pthread.h>
+#include <unistd.h>
 
 void* first_move(void* Sp)//void* first_move(void*)
 {
@@ -119,7 +120,7 @@ void* exitProg(void* btn)
     
     CPIO_BUTTON *BUTTON_PIO = (CPIO_BUTTON*) btn;
     printf("Exit function\r\n");
-
+	sleep(1);
     while((BUTTON_PIO->GetBUTTON() & 0x03) != 0)
     { }
     exit(0);
@@ -134,12 +135,13 @@ int main(int argc, char *argv[]){
     
     int buttons;
     int prev_buttons;
+	unsigned int sleep(int GoToSleep);
 
 
     printf("Before exit thread\r\n");
     // Exit Program------------------------------------
-    //pthread_t Ext;
-    //pthread_create(&Ext, NULL, &exitProg, &BUTTON_PIO);
+    pthread_t Ext;
+    pthread_create(&Ext, NULL, &exitProg, &BUTTON_PIO);
     //-------------------------------------------------
     printf("After exit thread\r\n");
 
@@ -173,7 +175,7 @@ int main(int argc, char *argv[]){
             {
                 pthread_cancel(ledsL);
                 printf("\n\nLEFT LEDs has been Stopped\n\n");
-
+				//sleep(10);
                 pthread_t t1, ledsR;
 
                 pthread_create(&t1, NULL, &first_move, &Spider); //Move Thread
@@ -200,8 +202,3 @@ int main(int argc, char *argv[]){
     }
 return 0;
 }
-
-
-
-
-

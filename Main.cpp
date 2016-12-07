@@ -37,9 +37,57 @@ void* second_move(void* Sp)//void* first_move(void*)
 {
 	    CSpider* Spider = (CSpider*) Sp;
 
-    Spider->SetSpeed(80);
-	Spider->ByeBye(1);
-    return NULL;
+    Spider->SetSpeed(15);
+	Spider->Stomp(8);
+	std::cout<<"\nReseting\n";
+       Spider->Reset();
+       //Spider->RotatelRight(2);
+       //Spider->RotatelLeft(2);
+		for(int i = 0; i < 3; i++){
+		Spider->BodyForward();
+		Spider->TiltForward();
+		Spider->TiltRight();
+	   //Spider->BodyNone();
+		Spider->TiltBackward();
+		Spider->BodyBackward();
+		Spider->TiltLeft();
+	   //Spider->BodyNone();
+		Spider->TiltNone();}
+	   	std::cout<<"\nReseting\n";
+		Spider->Reset();
+		std::cout<<"\nBefore Wave\n";
+		Spider->ByeBye(3);
+		std::cout<<"\nReseting\n";
+		Spider->Reset();
+		std::cout<<"\nAfter Wave\n";
+       /*Spider->usleep(1000000);
+       Spider->BodyNone();
+       Spider->BodyBackward();
+       //Spider->usleep(1000000);
+       Spider->BodyNone();
+       Spider->DEMO_Rollover();
+       Spider->MoveForward(1);
+	   std::cout<<"\nReseting\n";
+       Spider->Reset();
+       Spider->TiltForward();
+       Spider->TiltNone();
+       Spider->TiltBackward();
+       Spider->TiltNone();
+       Spider->BodyUpDown(1);
+       Spider->MoveBackward(1);
+	   std::cout<<"\nReseting\n";
+       Spider->Reset();
+       Spider->TiltRight();
+       Spider->TiltNone();
+      Spider->TiltLeft();
+       Spider->TiltNone();
+       Spider->TiltRight();
+       Spider->TiltNone();
+       Spider->TiltLeft();
+       Spider->TiltNone();
+       Spider->ByeBye(3);*/
+
+	return NULL;
 }
 
 void* LEDsL(void*)

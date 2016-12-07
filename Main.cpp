@@ -33,6 +33,12 @@ void* first_move(void* Sp)//void* first_move(void*)
     return NULL;
 }
 
+void* second_move(void* Sp)//void* first_move(void*)
+{
+
+    return NULL;
+}
+
 void* LEDsL(void*)
 {
 
@@ -115,6 +121,45 @@ void* LEDsR(void*)
     return NULL;
 }
 
+void* LEDsB(void*)
+{
+
+    CPIO_LED LED_PIO;
+
+    uint32_t tickCount = OS_GetTickCount();
+    int led = 1;
+    int frequency = 16;            
+        
+    while (true)
+    {
+
+        #define handle_error_en(en, msg) \
+             do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
+        int s, t;
+
+        t = pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+
+        s = pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+        if (s != 0)
+            handle_error_en(s, "pthread_setcancelstate");
+
+        if (t != 0)
+            handle_error_en(s, "pthread_setcanceltype");
+
+        if(OS_GetTickCount()-tickCount > OS_TicksPerSecond()/frequency) {
+            tickCount = OS_GetTickCount();
+            led = 0;
+
+            if(led < 1) {
+                        led = 127;
+                }
+
+            LED_PIO.SetLED(led);                        
+        }
+    }
+    return NULL;
+}
+
 void* exitProg(void* btn)
 {
     
@@ -193,11 +238,29 @@ int main(int argc, char *argv[]){
             }
         }
 
+
         if ((BUTTON_PIO.GetBUTTON() & 0x02)== 0) //KEY1
         {
-            if(buttons != prev_buttons){
-            exit(0); //Key 1 Not implemented yet... Just exit
-            }
+		if(buttons != prev_buttons)
+		    {
+			pthread_cancel(ledsL);
+			printf("\n\nLEFT LEDs has been Stopped\n\n");
+					//sleep(10);
+			pthread_t t2, ledsB;
+
+			pthread_create(&t2, NULL, &second_move, &Spider); //Move Thread
+
+			pthread_create(&ledsR, NULL, &LEDsB, NULL); //LEDs Right thread
+
+
+			//-----Stop LEDs thread
+			void* result;
+			pthread_join(t2,&result);
+			printf("Joining\r\n");
+			pthread_cancel(ledsB);
+			printf("\n\nLEDs has been Stopped 2\n\n");
+			//---------------------
+		    }
         }
     }
 return 0;

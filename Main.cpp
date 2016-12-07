@@ -44,15 +44,19 @@ void* second_move(void* Sp)//void* first_move(void*)
        //Spider->RotatelRight(2);
        //Spider->RotatelLeft(2);
 		for(int i = 0; i < 3; i++){
-		Spider->BodyForward();
-		Spider->TiltForward();
-		Spider->TiltRight();
-	   //Spider->BodyNone();
-		Spider->TiltBackward();
-		Spider->BodyBackward();
-		Spider->TiltLeft();
-	   //Spider->BodyNone();
-		Spider->TiltNone();}
+			Spider->BodyForward();
+			Spider->TiltForward();
+			Spider->TiltRight();
+			Spider->TiltBackward();
+			Spider->BodyBackward();
+			Spider->TiltLeft();
+			Spider->TiltNone();
+		}
+		for(int i=0; i<30; i++){
+			Spider->RotatelRight(1);
+			Spider->MoveParallel(1);
+			Spider->BodyUpDown(1);
+		}
 	   	std::cout<<"\nReseting\n";
 		Spider->Reset();
 		std::cout<<"\nBefore Wave\n";

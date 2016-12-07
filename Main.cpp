@@ -35,7 +35,10 @@ void* first_move(void* Sp)//void* first_move(void*)
 
 void* second_move(void* Sp)//void* first_move(void*)
 {
+	    CSpider* Spider = (CSpider*) Sp;
 
+    Spider->SetSpeed(80);
+	Spider->ByeBye(1);
     return NULL;
 }
 

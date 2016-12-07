@@ -292,6 +292,7 @@ int main(int argc, char *argv[]){
                 pthread_cancel(ledsR);
                 printf("\n\nLEDs has been Stopped 2\n\n");
                 //---------------------
+		pthread_create(&ledsL, NULL, &LEDsL, NULL); //LEDs Left thread
             }
         }
 

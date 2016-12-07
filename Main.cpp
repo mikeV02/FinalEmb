@@ -127,9 +127,9 @@ void* LEDsB(void*)
     CPIO_LED LED_PIO;
 
     uint32_t tickCount = OS_GetTickCount();
-    int led = 1;
+    int led;
     int frequency = 16;            
-        
+    bool change = true;
     while (true)
     {
 
@@ -148,13 +148,15 @@ void* LEDsB(void*)
 
         if(OS_GetTickCount()-tickCount > OS_TicksPerSecond()/frequency) {
             tickCount = OS_GetTickCount();
+			if(change){
             led = 0;
-
-            if(led < 1) {
-                        led = 127;
-                }
-
-            LED_PIO.SetLED(led);                        
+			change=false;
+			}
+			else{
+				led = 127;
+				change=true;
+			}
+			LED_PIO.SetLED(led);                       
         }
     }
     return NULL;
@@ -250,7 +252,7 @@ int main(int argc, char *argv[]){
 
 			pthread_create(&t2, NULL, &second_move, &Spider); //Move Thread
 
-			pthread_create(&ledsR, NULL, &LEDsB, NULL); //LEDs Right thread
+			pthread_create(&ledsB, NULL, &LEDsB, NULL); //LEDs Right thread
 
 
 			//-----Stop LEDs thread
@@ -259,6 +261,7 @@ int main(int argc, char *argv[]){
 			printf("Joining\r\n");
 			pthread_cancel(ledsB);
 			printf("\n\nLEDs has been Stopped 2\n\n");
+			pthread_create(&ledsL, NULL, &LEDsL, NULL); //LEDs Left thread
 			//---------------------
 		    }
         }

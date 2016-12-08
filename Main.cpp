@@ -35,9 +35,13 @@ void* first_move(void* Sp)//void* first_move(void*)
 
 void* second_move(void* Sp)//void* first_move(void*)
 {
-	    CSpider* Spider = (CSpider*) Sp;
-
+	bool alternate = true;
+	CSpider* Spider = (CSpider*) Sp;
+	
+	
     Spider->SetSpeed(15);
+	Spider->BestDance(1);
+	/*
 	Spider->Stomp(8);
 	std::cout<<"\nReseting\n";
        Spider->Reset();
@@ -52,11 +56,16 @@ void* second_move(void* Sp)//void* first_move(void*)
 			Spider->TiltLeft();
 			Spider->TiltNone();
 		}
+		Spider->ByeBye(3);
+		Spider->Reset();
+		
+		Spider->SetSpeed(30);
 		for(int i=0; i<30; i++){
+	
 			Spider->RotatelRight(1);
-			Spider->MoveParallel(1);
-			Spider->BodyUpDown(1);
-		}
+			Spider->MoveParallelL(2);
+			//Spider->BodyUpDown(1);
+		}		
 	   	std::cout<<"\nReseting\n";
 		Spider->Reset();
 		std::cout<<"\nBefore Wave\n";
@@ -64,7 +73,7 @@ void* second_move(void* Sp)//void* first_move(void*)
 		std::cout<<"\nReseting\n";
 		Spider->Reset();
 		std::cout<<"\nAfter Wave\n";
-       /*Spider->usleep(1000000);
+       Spider->usleep(1000000);
        Spider->BodyNone();
        Spider->BodyBackward();
        //Spider->usleep(1000000);
